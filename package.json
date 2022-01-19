@@ -1,0 +1,23 @@
+{
+  "name": "content-service",
+  "version": "1.0.0",
+  "description": "assignment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://Yash-g17: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@github.com/Yash-g17/Content-Service.git"
+  },
+  "author": "me",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yash-g17/Content-Service/issues"
+  },
+  "homepage": "https://github.com/Yash-g17/Content-Service#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "mongoose": "^6.1.7"
+  }
+}

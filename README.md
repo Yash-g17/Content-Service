@@ -1,2 +1,2 @@
 # Content-Service
-Pratilipi
+intern assignment
