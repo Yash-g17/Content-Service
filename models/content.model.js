@@ -1,19 +1,22 @@
 const mongoose = require('mongoose');
 
 var contentSchema = new mongoose.Schema({
-    Title: {
+    id: {
         type: String
     },
-    Story: {
+    title: {
         type: String
     },
-    Date_published: {
+    story: {
+        type: String
+    },
+    date_published: {
         type: Date
     },
-    User_ID: {
+    user_id: {
         type: String
     },
-    User_interaction: {
+    user_interaction: {
         reads: {
             type: Number
         },
