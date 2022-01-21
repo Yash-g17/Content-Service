@@ -1,6 +1,16 @@
-var express = require('express')
+var express = require('express');
+const multer = require('multer');
+// const contentController = require('../controllers/ContentController.js');
 var router = express.Router();
 var content = require('../controllers/ContentController.js')
+const upload = multer({ dest: 'tmp/csv/' });
+
+
+// add csv 
+
+router.post('/addcsv', upload.single('csv'), (req, res) => {
+    content.addcsv(req, res);
+})
 
 // add new content
 
@@ -44,4 +54,9 @@ router.delete('/delete', (req, res) => {
     content.delete(req, res);
 })
 
+//deleteAll 
+
+router.delete('/deleteAll', (req, res) => {
+    content.deleteAll(req, res)
+})
 module.exports = router;

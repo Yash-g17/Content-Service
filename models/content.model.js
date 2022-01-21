@@ -16,13 +16,11 @@ var contentSchema = new mongoose.Schema({
     user_id: {
         type: String
     },
-    user_interaction: {
-        reads: {
-            type: Number
-        },
-        likes: {
-            type: Number
-        }
+    reads: {
+        type: Number
+    },
+    likes: {
+        type: Number
     }
 })
 

@@ -1,12 +1,20 @@
 const mongoose = require('mongoose')
 const Content = mongoose.model('Content')
-
+const fs = require('fs')
 var contentController = {}
-
+const csv = require('csvtojson')
 //add new contents via csv 
 
 contentController.addcsv = (req, res) => {
-
+    csv().fromFile(req.file.path).then((jsonObj) => {
+        console.log(jsonObj);
+        var content = new Content();
+        Content.insertMany(jsonObj, (err, data) => {
+            if (err) console.log(err);
+            else console.log(data);
+        })
+    })
+    res.send("csv added");
 }
 
 //add a new content 
@@ -19,8 +27,8 @@ contentController.add = (req, res) => {
         content.story = req.body.story;
         content.date_published = req.body.date_published;
         content.user_id = req.body.user_id;
-        content.user_interaction.reads = req.body.user_interaction.reads;
-        content.user_interaction.likes = req.body.user_interaction.likes;
+        content.reads = req.body.reads;
+        content.likes = req.body.likes;
         content.save((err, doc) => {
             if (!err) {
                 console.log(doc);
@@ -99,7 +107,7 @@ contentController.newContents = (req, res) => {
 contentController.topContents = (req, res) => {
     Content.aggregate(
         [
-            { $addFields: { sort_order: { $add: ["$user_interaction.likes", "$user_interaction.reads"] } } },
+            { $addFields: { sort_order: { $add: ["$likes", "$reads"] } } },
             { $sort: { sort_order: -1 } },
             { $project: { sort_order: 0, _id: 0 } }
         ]
@@ -120,7 +128,7 @@ contentController.topContents = (req, res) => {
 
 contentController.update = (req, res) => {
 
-    Content.findByIdAndUpdate(req.body._id, { $set: { id: req.body.id, title: req.body.title, story: req.body.story, date_published: req.body.date_published, user_id: req.body.user_id, user_interaction: req.body.user_interaction } }, { new: true }, function (err) {
+    Content.findByIdAndUpdate(req.body._id, { $set: { id: req.body.id, title: req.body.title, story: req.body.story, date_published: req.body.date_published, user_id: req.body.user_id, reads: req.body.reads, likes: req.body.likes } }, { new: true }, function (err) {
         if (!err) {
             res.send("updated succesfully");
         }
@@ -147,5 +155,11 @@ contentController.delete = (req, res) => {
     });
 }
 
+contentController.deleteAll = (req, res) => {
+    Content.deleteMany({}, (err, data) => {
+        if (err) console.log("there was an error");
+        else (res.send(data));
+    })
+}
 
 module.exports = contentController;
