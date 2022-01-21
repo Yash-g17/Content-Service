@@ -11,7 +11,13 @@ router.post('/add', (req, res) => {
 // show list of [title , story] 
 
 router.get('/list', (req, res) => {
-    content.list(req, res);
+    content.listContent(req, res);
+})
+
+//listall
+
+router.get('/listall', (req, res) => {
+    content.listAll(req, res);
 })
 
 // show list of contents sorted on the basis of user_interaction
@@ -37,3 +43,5 @@ router.post('/update', (req, res) => {
 router.delete('/delete', (req, res) => {
     content.delete(req, res);
 })
+
+module.exports = router;
