@@ -3,18 +3,25 @@ const Content = mongoose.model('Content')
 const fs = require('fs')
 var contentController = {}
 const csv = require('csvtojson')
+var ObjectId = require('mongodb').ObjectId;
+
+
 //add new contents via csv 
 
 contentController.addcsv = (req, res) => {
     csv().fromFile(req.file.path).then((jsonObj) => {
         console.log(jsonObj);
-        var content = new Content();
         Content.insertMany(jsonObj, (err, data) => {
-            if (err) console.log(err);
-            else console.log(data);
+            if (err) {
+                console.log(err);
+                res.send("there was an error pls try again")
+            }
+            else {
+                console.log(data);
+                res.send("csv added")
+            }
         })
     })
-    res.send("csv added");
 }
 
 //add a new content 
@@ -63,7 +70,20 @@ contentController.listAll = (req, res) => {
         }
     });
 }
+//list id 
 
+contentController.listid = (req, res) => {
+    // console.log(req.body.id);
+    Content.find({ _id: ObjectId(req.body.id) }).exec((err, content) => {
+        if (err) {
+            console.log(err);
+            res.send('there was an error');
+        } else {
+            console.log(content);
+            res.send(content);
+        }
+    })
+}
 //show list of [title,story]
 
 contentController.listContent = (req, res) => {
@@ -127,18 +147,23 @@ contentController.topContents = (req, res) => {
 //update an entry 
 
 contentController.update = (req, res) => {
-
-    Content.findByIdAndUpdate(req.body._id, { $set: { id: req.body.id, title: req.body.title, story: req.body.story, date_published: req.body.date_published, user_id: req.body.user_id, reads: req.body.reads, likes: req.body.likes } }, { new: true }, function (err) {
-        if (!err) {
-            res.send("updated succesfully");
-        }
+    Content.find({ _id: ObjectId(req.body.id) }).exec((err, content) => {
+        // console.log(content);
+        if (!content.length)
+            res.send("Does not exist");
         else {
-            if (err.name == "ValidationError") {
-                res.send("Validation error , send valid parameters and try again");
-            }
+            Content.findByIdAndUpdate(req.body.id, { $set: { id: req.body.id, title: req.body.title, story: req.body.story, date_published: req.body.date_published, user_id: req.body.user_id, reads: req.body.reads, likes: req.body.likes } }, { new: true }, function (err) {
+                if (!err) {
+                    res.send("updated succesfully");
+                }
+                else {
+                    if (err.name == "ValidationError") {
+                        res.send("Validation error , send valid parameters and try again");
+                    }
+                }
+            })
         }
     })
-
 }
 
 //delete a record of a given  title and story
