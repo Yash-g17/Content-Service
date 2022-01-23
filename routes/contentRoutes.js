@@ -31,7 +31,7 @@ router.get('/listall', (req, res) => {
 })
 
 //listid
-router.get('/listid', (req, res) => {
+router.post('/listid', (req, res) => {
     content.listid(req, res);
 })
 // show list of contents sorted on the basis of user_interaction
