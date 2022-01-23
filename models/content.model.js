@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 
 var contentSchema = new mongoose.Schema({
-    _id: {
-        type: mongoose.ObjectId
-    },
     title: {
         type: String
     },
