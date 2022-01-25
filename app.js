@@ -2,9 +2,15 @@ require('./models/db')
 const express = require("express");
 var bodyParser = require('body-parser');
 const cron = require("node-cron")
+const fs = require('fs')
 
+
+const dir = 'temp/csv'
 
 cron.schedule("* 0 * * *", function () {
+    fs.rmdir(dir, { recursive: true }, () => {
+        console.log("temp files removed");
+    })
     console.log("service is up and running ");
 });
 
