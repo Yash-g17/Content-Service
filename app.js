@@ -2,6 +2,11 @@ require('./models/db')
 const express = require("express");
 var bodyParser = require('body-parser');
 
+// var redis = require('redis');
+// var publisher = redis.createClient();
+// publisher.publish(`notification`, `{ ”message”: "Hello world” }`, function () {
+//     process.exit(0);
+// });
 
 const app = express();
 const ContentRouter = require('./routes/contentRoutes')
