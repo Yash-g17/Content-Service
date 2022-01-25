@@ -4,9 +4,9 @@ var bodyParser = require('body-parser');
 const cron = require("node-cron")
 
 
-// cron.schedule("* * * * *", function () {
-
-// });
+cron.schedule("* 0 * * *", function () {
+    console.log("service is up and running ");
+});
 
 const app = express();
 const ContentRouter = require('./routes/contentRoutes');
@@ -21,4 +21,3 @@ const port = 3000;
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 });
-
