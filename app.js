@@ -1,15 +1,16 @@
 require('./models/db')
 const express = require("express");
 var bodyParser = require('body-parser');
+const cron = require("node-cron")
 
-// var redis = require('redis');
-// var publisher = redis.createClient();
-// publisher.publish(`notification`, `{ ”message”: "Hello world” }`, function () {
-//     process.exit(0);
+
+// cron.schedule("* * * * *", function () {
+
 // });
 
 const app = express();
-const ContentRouter = require('./routes/contentRoutes')
+const ContentRouter = require('./routes/contentRoutes');
+const { schedule } = require('node-cron');
 app.use(bodyParser.json())
 
 app.use('/content', ContentRouter)

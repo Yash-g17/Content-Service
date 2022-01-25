@@ -10,15 +10,13 @@ services:
     environment:
       - PORT=3000
     depends_on:
-      - mongo
-  mongo:
+      - mongocontent
+  mongocontent:
     image: mongo
     volumes:
-      - mongo-db:/data/db
-  redis:
-    image: redis
+      - mongo-db-content:/data/db
 volumes:
-  mongo-db:
+  mongo-db-content:
 
 networks:
   default:
